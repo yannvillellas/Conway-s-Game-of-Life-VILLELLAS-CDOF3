@@ -21,4 +21,4 @@ Here's a picture of the game :
 
 <!--![nanana](https://localhost:3000)--!>
 
-This project was designed, engineered and coded by the beautiful [Yann Villellas](https://yann.app).
+This project was designed, engineered and coded by the beautiful [Yann Villellas](https://yann.app/).
