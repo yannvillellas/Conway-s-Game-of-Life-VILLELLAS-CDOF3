@@ -2,6 +2,7 @@ import os
 import random
 import time
 
+
 try:
     import msvcrt
     def key_pressed():
@@ -14,9 +15,11 @@ except ImportError:
     def get_key():
         return None
 
+
 def create_grid(rows, cols):
     grid = [[random.choice([0, 1]) for _ in range(cols)] for _ in range(rows)]
     return grid
+
 
 def print_grid(grid):
     horizontal_border = '+' + '-' * (len(grid[0]) + 1) + '+'
@@ -26,6 +29,7 @@ def print_grid(grid):
         print(*['█' if cell else ' ' for cell in row], sep='', end='')
         print('|')
     print(horizontal_border)
+
 
 def get_neighbours(grid, row, col):
     rows = len(grid)
@@ -39,6 +43,7 @@ def get_neighbours(grid, row, col):
             neighbour_col = (col + j) % cols
             neighbours.append(grid[neighbour_row][neighbour_col])
     return neighbours
+
 
 def update_grid(grid):
     new_grid = [[0 for _ in range(len(grid[0]))] for _ in range(len(grid))]
@@ -55,25 +60,24 @@ def update_grid(grid):
                 new_grid[row][col] = cell
     return new_grid
 
+
 def main():
     rows = 5
     cols = 10
     grid = create_grid(rows, cols)
     stop_key = 'b'
 
-    while True:
+
+    while not key_pressed() or get_key() != stop_key:
         print_grid(grid)
-
-        # Check if a key is pressed
-        if key_pressed():
-            key = get_key()
-            if key == stop_key:
-                print("Game stopped by user.")
-                break
-
+        print ("Press 'b' to stop the game.")
         grid = update_grid(grid)
         time.sleep(0.5)
         os.system('cls' if os.name == 'nt' else 'clear')
+
+
+    print("Game stopped by user.")
+
 
 if __name__ == '__main__':
     main()
