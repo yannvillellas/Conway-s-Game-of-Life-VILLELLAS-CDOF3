@@ -43,14 +43,42 @@ def update_grid(grid):
                 new_grid[row][col] = cell
     return new_grid
 
+def get_user_delay():
+    while True:
+        user_delay = input('How much time (seconds) between 2 frames? (Min = 0.1, Max = 1, Default = 0.5): ')
+        try:
+            user_delay = float(user_delay)
+            if 0.1 <= user_delay <= 1:
+                return user_delay
+            else:
+                return 0.5
+        except ValueError:
+            print('Invalid input. Please enter a valid number.')
+
 def main():
     rows = 5
     cols = 10
+
+    user_rows = input('How many rows would you like to have ? (Min = 5 (Default), Max = 25) ')
+    user_cols = input('How many columns would you like to have on your grid ? (Min = 10 (Default), Max = 50) ')
+    while not user_rows.isdecimal():
+        user_rows = input('Rows input is not an integer, try again (Min = 5 (Default), Max = 25) : ')
+    while not user_cols.isdecimal():
+        user_cols = input('Columns input is not an integer, try again (Min = 10 (Default), Max = 50) : ')
+    user_rows = int(user_rows)
+    user_cols = int(user_cols)
+    if user_rows >= 5 and user_rows <= 25:
+        rows = user_rows
+    if user_cols >= 10 and user_rows <= 50:
+            cols = user_cols
+    
+    delay = get_user_delay()
+
     grid = create_grid(rows, cols)
     while True:
         print_grid(grid)
         grid = update_grid(grid)
-        time.sleep(0.5)
+        time.sleep(delay)
         os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == '__main__':
