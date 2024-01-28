@@ -30,6 +30,10 @@ To run the app, you only have to type the following command in the terminal, in 
 python main.py
 ```
 
+## Contribution
+
+If you want to contribute, you can check some issues I created where you can see some improvements that can be made. You just have to fork the project then suggest changes by sending a pull request.
+
 ## Credit
 
 This project was designed, engineered and coded by the beautiful [Yann Villellas](https://yann.app/).
