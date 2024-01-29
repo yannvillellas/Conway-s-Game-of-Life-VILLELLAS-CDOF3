@@ -2,9 +2,24 @@ import os
 import random
 import time
 
+
+try:
+    import msvcrt
+    def key_pressed():
+        return msvcrt.kbhit()
+    def get_key():
+        return msvcrt.getch().decode('utf-8')
+except ImportError:
+    def key_pressed():
+        return False
+    def get_key():
+        return None
+
+
 def create_grid(rows, cols):
     grid = [[random.choice([0, 1]) for _ in range(cols)] for _ in range(rows)]
     return grid
+
 
 def print_grid(grid):
     horizontal_border = '+' + '-' * (len(grid[0]) + 1) + '+'
@@ -14,6 +29,7 @@ def print_grid(grid):
         print(*['█' if cell else ' ' for cell in row], sep='', end='')
         print('|')
     print(horizontal_border)
+
 
 def get_neighbours(grid, row, col):
     rows = len(grid)
@@ -27,6 +43,7 @@ def get_neighbours(grid, row, col):
             neighbour_col = (col + j) % cols
             neighbours.append(grid[neighbour_row][neighbour_col])
     return neighbours
+
 
 def update_grid(grid):
     new_grid = [[0 for _ in range(len(grid[0]))] for _ in range(len(grid))]
@@ -43,6 +60,7 @@ def update_grid(grid):
                 new_grid[row][col] = cell
     return new_grid
 
+  
 def get_user_delay():
     while True:
         user_delay = input('How much time (seconds) between 2 frames? (Min = 0.1, Max = 1, Default = 0.5): ')
@@ -55,6 +73,7 @@ def get_user_delay():
         except ValueError:
             print('Invalid input. Please enter a valid number.')
 
+            
 def main():
     rows = 5
     cols = 10
@@ -75,11 +94,19 @@ def main():
     delay = get_user_delay()
 
     grid = create_grid(rows, cols)
-    while True:
+    stop_key = 'b'
+
+
+    while not key_pressed() or get_key() != stop_key:
         print_grid(grid)
+        print ("Press 'b' to stop the game.")
         grid = update_grid(grid)
         time.sleep(delay)
         os.system('cls' if os.name == 'nt' else 'clear')
+
+
+    print("Game stopped by user.")
+
 
 if __name__ == '__main__':
     main()
