@@ -2,7 +2,6 @@ import os
 import random
 import time
 
-
 try:
     import msvcrt
     def key_pressed():
@@ -15,11 +14,9 @@ except ImportError:
     def get_key():
         return None
 
-
 def create_grid(rows, cols):
     grid = [[random.choice([0, 1]) for _ in range(cols)] for _ in range(rows)]
     return grid
-
 
 def print_grid(grid):
     horizontal_border = '+' + '-' * (len(grid[0]) + 1) + '+'
@@ -29,7 +26,6 @@ def print_grid(grid):
         print(*['█' if cell else ' ' for cell in row], sep='', end='')
         print('|')
     print(horizontal_border)
-
 
 def get_neighbours(grid, row, col):
     rows = len(grid)
@@ -43,7 +39,6 @@ def get_neighbours(grid, row, col):
             neighbour_col = (col + j) % cols
             neighbours.append(grid[neighbour_row][neighbour_col])
     return neighbours
-
 
 def update_grid(grid):
     new_grid = [[0 for _ in range(len(grid[0]))] for _ in range(len(grid))]
@@ -60,53 +55,51 @@ def update_grid(grid):
                 new_grid[row][col] = cell
     return new_grid
 
-  
 def get_user_delay():
     while True:
-        user_delay = input('How much time (seconds) between 2 frames? (Min = 0.1, Max = 1, Default = 0.5): ')
         try:
-            user_delay = float(user_delay)
-            if 0.1 <= user_delay <= 1:
-                return user_delay
+            delay = float(input("How fast would you like the game to be (min = 0s, max = 5s)? "))
+            if 0 <= delay <= 5:
+                break
             else:
-                return 0.5
+                print("Invalid input. Please enter a number between 0 and 5.")
         except ValueError:
-            print('Invalid input. Please enter a valid number.')
+            print("Invalid input. Please enter a valid decimal number.")
+    return delay
 
-            
-def main():
-    rows = 5
-    cols = 10
-
-    user_rows = input('How many rows would you like to have ? (Min = 5 (Default), Max = 25) ')
-    user_cols = input('How many columns would you like to have on your grid ? (Min = 10 (Default), Max = 50) ')
-    while not user_rows.isdecimal():
-        user_rows = input('Rows input is not an integer, try again (Min = 5 (Default), Max = 25) : ')
-    while not user_cols.isdecimal():
-        user_cols = input('Columns input is not an integer, try again (Min = 10 (Default), Max = 50) : ')
-    user_rows = int(user_rows)
-    user_cols = int(user_cols)
-    if user_rows >= 5 and user_rows <= 25:
-        rows = user_rows
-    if user_cols >= 10 and user_rows <= 50:
-            cols = user_cols
+def get_user_size():
+    while True:
+        try:
+            rows = int(input("How many rows would you like to have (min = 5, max = 50)? "))
+            if 5 <= rows <= 50:
+                break
+            else:
+                print("Invalid input. Please enter a number between 5 and 50.")
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
+    while True:
+        try:
+            cols = int(input("How many columns would you like to have on your grid (min = 10, max = 200)? "))
+            if 10 <= cols <= 200:
+                break
+            else:
+                print("Invalid input. Please enter a number between 10 and 200.")
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
+    return rows, cols
     
+def main():
+    rows,cols = get_user_size()
     delay = get_user_delay()
-
     grid = create_grid(rows, cols)
     stop_key = 'b'
-
-
     while not key_pressed() or get_key() != stop_key:
         print_grid(grid)
         print ("Press 'b' to stop the game.")
         grid = update_grid(grid)
         time.sleep(delay)
         os.system('cls' if os.name == 'nt' else 'clear')
-
-
     print("Game stopped by user.")
-
 
 if __name__ == '__main__':
     main()
