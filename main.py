@@ -4,13 +4,16 @@ import time
 
 try:
     import msvcrt
+
     def key_pressed():
         return msvcrt.kbhit()
+
     def get_key():
         return msvcrt.getch().decode('utf-8')
 except ImportError:
     def key_pressed():
         return False
+
     def get_key():
         return None
 
@@ -87,15 +90,15 @@ def get_user_size():
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
     return rows, cols
-    
+  
 def main():
-    rows,cols = get_user_size()
+    rows, cols = get_user_size()
     delay = get_user_delay()
     grid = create_grid(rows, cols)
     stop_key = 'b'
-    while not key_pressed() or get_key() != stop_key:
+    while not key_pressed() or (get_key() is not None and get_key() != stop_key):
         print_grid(grid)
-        print ("Press 'b' to stop the game.")
+        print("Press 'b' to stop the game.")
         grid = update_grid(grid)
         time.sleep(delay)
         os.system('cls' if os.name == 'nt' else 'clear')
