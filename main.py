@@ -90,7 +90,7 @@ def get_user_size():
         except ValueError:
             print("Invalid input. Please enter a valid integer.")
     return rows, cols
-
+  
 def main():
     rows, cols = get_user_size()
     delay = get_user_delay()
